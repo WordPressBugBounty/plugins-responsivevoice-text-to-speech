@@ -3,7 +3,7 @@
 Plugin Name: ResponsiveVoice Text To Speech
 Plugin URI: responsivevoice.org/wordpress-text-to-speech-plugin/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=wprvttsplugin
 Description: An easy to use plugin to integrate ResponsiveVoice Text to Speech into your WP blog.
-Version: 1.7.13
+Version: 1.7.14
 Author: ResponsiveVoice
 Author URI: http://responsivevoice.org
 License: GPL2
