@@ -4,8 +4,8 @@ Author: ResponsiveVoice
 Donate link: https://responsivevoice.org/wordpress-text-to-speech-plugin/
 Tags: audio, google translate, Google Voice, speech, text to audio, text to speech, text-to-speech, text2speech, speech synthesis api, webspeech api, voice, espeak, javascript, Speak, speech, spoken, text, text-to-speech, talk, listen, accessibility, a11y, webreader, ivona, tts, arabic, mp3, ogg, buddypress, button, chinese, english, french, german, google, welcome, greetings, hebrew, html, html5, iPad, iphone, italian, jquery, link, links, menus, mobile, multilingual, page, pages, plugin, plugins, portuguese, Post, posts, readability, Russian, seo, shortcode, sidebar, sound, spanish, gspeech, stats, tablet, tts, widget, wordpress, button, blind, visual impairment, elderly, ADA, BS 8878:2010, WCAG 2.0, Web Content Accessibility Guidelines 2.0
 Requires at least: 3.6
-Tested up to: 6.7
-Stable tag: 1.7.14
+Tested up to: 6.8
+Stable tag: 1.7.15
 License: GPLv2
 
 ResponsiveVoice the leading HTML5 text to speech synthesis solution, is now available for WordPress. Over 51 languages through 168 voices.
@@ -79,6 +79,9 @@ If you have experienced any problems with this plugin please let us know by cont
 1. ResponsiveVoice Listen button in a Wordpress post.
 
 == Changelog ==
+
+= Version 1.7.15 =
+- Tested with upcoming Wordpress v6.8 release
 
 = Version 1.7.14 =
 - Tested with upcoming Wordpress v6.7 release
@@ -334,5 +337,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 1.7.14 =
+= 1.7.15 =
 * Upgrade the plugin for the latest improvements.
