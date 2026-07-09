@@ -2,18 +2,22 @@
 Contributors: ResponsiveVoice
 Author: ResponsiveVoice
 Donate link: https://responsivevoice.org/wordpress-text-to-speech-plugin/
-Tags: audio, google translate, Google Voice, speech, text to audio, text to speech, text-to-speech, text2speech, speech synthesis api, webspeech api, voice, espeak, javascript, Speak, speech, spoken, text, text-to-speech, talk, listen, accessibility, a11y, webreader, ivona, tts, arabic, mp3, ogg, buddypress, button, chinese, english, french, german, google, welcome, greetings, hebrew, html, html5, iPad, iphone, italian, jquery, link, links, menus, mobile, multilingual, page, pages, plugin, plugins, portuguese, Post, posts, readability, Russian, seo, shortcode, sidebar, sound, spanish, gspeech, stats, tablet, tts, widget, wordpress, button, blind, visual impairment, elderly, ADA, BS 8878:2010, WCAG 2.0, Web Content Accessibility Guidelines 2.0
-Requires at least: 3.6
+Tags: text to speech, tts, accessibility, audio, text to audio
+Requires at least: 6.3
 Tested up to: 7.0
-Stable tag: 1.7.16
-License: GPLv2
+Requires PHP: 7.4
+Stable tag: 2.0.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-ResponsiveVoice the leading HTML5 text to speech synthesis solution, is now available for WordPress. Over 51 languages through 168 voices.
+ResponsiveVoice the leading HTML5 text to speech synthesis solution, is now available for WordPress. Over 51 languages through 158 voices.
 
 == Description ==
-[ResponsiveVoice](https://responsivevoice.org/wordpress-text-to-speech-plugin/) is a HTML5-based Text-To-Speech library designed to add voice features to WordPress across all smartphone, tablet and desktop devices. It supports 51 languages through 168 voices and has no dependencies.
+[ResponsiveVoice](https://responsivevoice.org/wordpress-text-to-speech-plugin/) adds HTML5 text-to-speech to your WordPress posts and pages — with nothing extra to install, across all smartphone, tablet and desktop devices. Your readers can listen with a tap: add a Listen button through the Gutenberg block or a shortcode, or turn on the WebPlayer to read a whole post aloud.
 
-Languages include UK English, US English, Spanish, French, Deutsch, Italian, Greek, Hungarian, Turkish, Russian, Dutch, Swedish, Norwegian, Japanese, Korean, Chinese, Hindi, Serbian, Croatian, Bosnian, Romanian, Catalan, Australian, Finnish, Afrikaans, Albanian, Arabic, Armenian, Czech, Danish, Esperanto, Hatian Creole, Icelandic, Indonesian, Latin, Latvian, Macedonian, Moldavian, Montenegrin, Polish, Brazilian Portuguese, Portuguese, Serbo-Croatian, Slovak, Spanish Latin American, Swahili, Tamil, Thai, Vietnamese and Welsh.
+It supports 51 languages through 158 voices out of the box — plus thousands of premium neural voices from major cloud providers (Google Cloud, Microsoft Azure, OpenAI and more) via bring-your-own-key on v2 accounts.
+
+Languages include UK English, US English, Spanish, French, German, Italian, Greek, Hungarian, Turkish, Russian, Dutch, Swedish, Norwegian, Japanese, Korean, Chinese, Chinese (Hong Kong), Chinese Taiwan, Hindi, Serbian, Croatian, Bosnian, Romanian, Catalan, Australian, Finnish, Afrikaans, Albanian, Arabic, Armenian, Czech, Danish, Esperanto, Hatian Creole, Icelandic, Indonesian, Latin, Latvian, Macedonian, Moldavian, Montenegrin, Polish, Brazilian Portuguese, Portuguese, Serbo-Croatian, Slovak, Spanish Latin American, Swahili, Tamil, Thai, Vietnamese and Welsh.
 
 
 ### Support and Questions visit here first:
@@ -26,59 +30,115 @@ Languages include UK English, US English, Spanish, French, Deutsch, Italian, Gre
 
 ### Features:
 * Listen to any post or page with the tap of a button
-* Shortcodes to place Listen button anywhere on the post or page
-* 51 languages supported through 168 voices
-* Unlimited text to speech
-* Easy access to content for website users, tap to listen to your page or post read aloud
-* A more functional website for a range of users including visually impaired and the elderly
-* Web Accessibility Compliance Group 2.0, ADA and BS 8878:2010 features
+* A Gutenberg "Listen" block with a live voice picker — plus shortcodes for the classic editor
+* The WebPlayer: a customizable player that reads a whole post aloud (v2 accounts)
+* 51 languages through 158 voices, plus thousands of premium neural voices via bring-your-own-key (v2)
+* Easy access to your content for every visitor — tap to listen to any page or post
+* A more accessible website for a range of users, including the visually impaired and the elderly
+* Web Content Accessibility Guidelines (WCAG) 2.0, ADA and BS 8878:2010 features
 
 ### Usage:
 
-* From version 1.6.6, we added API Key configuration to Wordpress settings. To experience the complete range of voices,
-[register free and get your API Key](https://responsivevoice.org/register). The plugin will still work without it, but
-you will be limited to available browser voices.
+**Add a Listen button with the block**
 
-* It's Easy - To have the Listen button appear put the following shortcode anywhere in the text of your page or post.
+In the block editor, insert the **ResponsiveVoice Listen Button** block wherever you want a Listen button. Pick a voice from the live list, adjust rate, pitch and volume, and preview it — all in the editor.
+
+**Turn on the WebPlayer (v2)**
+
+The WebPlayer is a ResponsiveVoice v2 feature that reads the whole post aloud — and the one ResponsiveVoice website feature you control right from WordPress. On a v2 account, open the **ResponsiveVoice** menu in your WordPress admin to enable or disable it and customise its appearance, position and behaviour, choose which content types show it, and override it per post. Your other ResponsiveVoice website features (such as the Welcome message that plays when a page loads) are configured in your ResponsiveVoice account dashboard.
+
+**Shortcodes (classic editor and back-compatible)**
+
+Add a Listen button anywhere in a post or page:
 `[responsivevoice_button]`
 
-You can select a voice by using the "voice" parameter, and change the text that appears on the button with the "buttontext" parameter. The following shortcode will read in the US English Female voice, and the button will say "Play".
+Set the voice and the button label:
 `[responsivevoice_button voice="US English Female" buttontext="Play"]`
-A full list of ResponsiveVoice names is available at [Documentation](https://responsivevoice.org/text-to-speech-languages/). Default is UK English Female.
 
-* Read a whole page, or just sections of text - If you don't want the whole page or post to be read, just surround the salient text with
-`[responsivevoice]Text you want ResponsiveVoice to read [/responsivevoice]`
-This tag also supports the voice and buttontext parameters. Additionally, you can place the button after the text (it will be before by default) with the "buttonposition" tag, like so:
-`[responsivevoice buttonposition="after"]Text you want ResponsiveVoice to read [/responsivevoice]`
+Read just a section by wrapping it:
+`[responsivevoice]Text you want ResponsiveVoice to read[/responsivevoice]`
 
-The shortcodes also allow other parameters. You can adjust the Voice's pitch, volume and rate with
+Place the button after the text (it appears before by default):
+`[responsivevoice buttonposition="after"]Text you want ResponsiveVoice to read[/responsivevoice]`
+
+Adjust rate, pitch and volume:
 `[responsivevoice_button rate="1" pitch="1.2" volume="0.8" voice="US English Female" buttontext="Play"]`
+
+Leave the voice unset to use your account's default voice. A full list of voice names is in the [Documentation](https://responsivevoice.org/text-to-speech-languages/).
+
+**Your API key**
+
+Create a [free account](https://responsivevoice.org/register) and add your API key from the **ResponsiveVoice** admin menu to unlock the full voice catalogue and the WebPlayer. Without a key, the plugin runs in demo mode so you can try it first.
 
 For more details, please see the [Documentation](https://responsivevoice.org/wordpress-text-to-speech-plugin/)
 
 = Requirements =
 
-There are no requirements, you do not need to install cURL.
+ResponsiveVoice runs in your visitors' browsers, so there is nothing to install or configure on your server. It works in modern browsers across desktop and mobile.
+
+== External services ==
+
+This plugin relies on the ResponsiveVoice service to synthesize speech, so text and your API key are sent to it from visitors' browsers.
+
+- The ResponsiveVoice library/SDK is loaded from `code.responsivevoice.org` / `cdn.responsivevoice.org`, or, in "bundled" delivery mode, served from your own site.
+- When a visitor plays audio, the text to read and your site's API key (a public website identifier, not a secret) are sent to the ResponsiveVoice Text-To-Speech API to generate audio.
+- The visitor's browser reads your site's ResponsiveVoice configuration — your account's website feature settings — from `texttospeech.responsivevoice.org`, so those features work on your site.
+- When the ResponsiveVoice SDK plays audio (the WebPlayer, buttons or shortcodes), it reports the number of characters spoken to `app.responsivevoice.org`. This is a single number for usage accounting: no personal or user information, and not the spoken text, is sent. It is required so your account's API usage is attributed correctly.
+
+Terms of Service: https://responsivevoice.org/terms/
+
+Privacy Policy: https://responsivevoice.org/privacy-policy/
 
 == Frequently Asked Questions ==
 
-You can read our FAQs [here](https://responsivevoice.freshdesk.com/support/solutions "ResponsiveVoice Helpdesk")
+You can read our FAQs [here](https://docs.responsivevoice.org/integrations/wordpress/#faq "ResponsiveVoice for WordPress documentation").
 
 If you have experienced any problems with this plugin please let us know by contacting our support department at [Support](https://responsivevoice.org/support "ResponsiveVoice support") website.
 
 == Installation ==
 
-1. Unzip files.
-2. Upload the entire responsivevoice-text-to-speech folder to the /wp-content/plugins/ directory.
-3. Activate the plugin through the 'Plugins' menu in WordPress.
-4. Use the shortcodes in your post or page.
-5. Enjoy!
+= Install from your WordPress admin (recommended) =
+
+1. Go to Plugins > Add New and search for "ResponsiveVoice Text To Speech".
+2. Click Install Now, then Activate.
+
+= Install manually =
+
+1. Upload the plugin under Plugins > Add New > Upload Plugin, or extract the ZIP into the `/wp-content/plugins/` directory.
+2. Activate the plugin through the Plugins menu in WordPress.
+
+= Get started =
+
+1. Add a Listen button with the ResponsiveVoice Listen Button block, or a shortcode such as `[responsivevoice_button]`.
+2. Open the **ResponsiveVoice** menu in your admin to add your API key and, on a v2 account, enable and customise the WebPlayer.
+
+= Upgrading from 1.7.x =
+
+Your existing shortcodes keep working, so no changes are required. A few things have changed in 2.0:
+
+* The Listen button has a refreshed, neutral look with a ResponsiveVoice icon (previously a speaker emoji). If you styled the button with custom CSS, check it still looks the way you want.
+* New in 2.0: the ResponsiveVoice Listen Button block, the WebPlayer, and a settings screen under the **ResponsiveVoice** admin menu.
+* When no voice is set, the button now uses your account's default voice instead of a fixed voice.
+* The `[responsivevoice_box]` voice-selector shortcode has been removed.
 
 == Screenshots ==
 
-1. ResponsiveVoice Listen button in a Wordpress post.
+1. Read any page aloud with the WebPlayer.
+2. Add a Listen button and choose from live voices — right in the block editor.
+3. Enable, position and customise the WebPlayer, with a live preview.
+4. Enable or disable the WebPlayer on any individual post or page.
 
 == Changelog ==
+
+= Version 2.0.0 =
+* Removed the voicebox shortcode.
+* Now requires WordPress 6.3+ and PHP 7.4+.
+* New v2 WebPlayer with a visual customizer: live preview, Basic/Advanced modes, custom colours, content-column alignment, and a configurable position.
+* Per-content-type WebPlayer visibility with per-post overrides.
+* Server-rendered Gutenberg "listen button" block with a live voice picker, rate/pitch/volume controls, and voice preview.
+* Rendering engine now follows the account's SDK version via a config probe, with a reversible v1 opt-in and keyless demo mode.
+* Rebuilt admin settings: API-key verification, tier-aware status, website-verification notices, onboarding guidance, and reset-to-defaults.
+* Existing shortcodes keep working after upgrade (parity verified against 1.7.16).
 
 = Version 1.7.16 =
 - Tested with upcoming Wordpress v7.0 release
@@ -340,5 +400,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 1.7.16 =
+= 2.0.0 =
 * Upgrade the plugin for the latest improvements.

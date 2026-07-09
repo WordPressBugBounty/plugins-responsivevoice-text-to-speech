@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "rvtts/listen-button",
+  "title": "ResponsiveVoice Listen Button",
+  "category": "widgets",
+  "icon": "controls-volumeon",
+  "description": "A button that reads the post aloud with ResponsiveVoice.",
+  "textdomain": "responsivevoice-text-to-speech",
+  "supports": {
+    "html": false,
+    "color": {
+      "text": true,
+      "background": true,
+      "gradients": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": true,
+        "width": true
+      }
+    }
+  },
+  "attributes": {
+    "voice": {
+      "type": "string",
+      "default": ""
+    },
+    "buttontext": {
+      "type": "string",
+      "default": "Listen to this"
+    },
+    "rate": {
+      "type": "number"
+    },
+    "pitch": {
+      "type": "number"
+    },
+    "volume": {
+      "type": "number"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

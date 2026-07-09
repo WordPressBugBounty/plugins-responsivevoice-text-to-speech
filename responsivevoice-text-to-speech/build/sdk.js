@@ -1,0 +1,1 @@
+(()=>{"use strict";const t=()=>{const t=document.getElementById("rvtts-sdk"),e=window.responsiveVoice;if(!t||!e)return;const a=t.dataset.rvttsApikey||"",s={};if(t.dataset.rvttsWebplayer)try{s.webPlayer=JSON.parse(t.dataset.rvttsWebplayer)}catch(t){}e.init({apiKey:a,features:s})};"loading"===document.readyState?document.addEventListener("DOMContentLoaded",t):t()})();
