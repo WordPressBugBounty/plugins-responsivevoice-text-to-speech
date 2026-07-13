@@ -6,7 +6,7 @@ Tags: text to speech, tts, accessibility, audio, text to audio
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,9 @@ Your existing shortcodes keep working, so no changes are required. A few things 
 4. Enable or disable the WebPlayer on any individual post or page.
 
 == Changelog ==
+
+= Version 2.0.1 =
+* [ResponsiveVoice] shortcode no longer distorts layout; button aligns across themes
 
 = Version 2.0.0 =
 * Removed the voicebox shortcode.
@@ -400,5 +403,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 2.0.0 =
+= 2.0.1 =
 * Upgrade the plugin for the latest improvements.

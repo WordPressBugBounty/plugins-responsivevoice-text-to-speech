@@ -97,15 +97,13 @@ final class LegacyEngine {
 			'ResponsiveVoice'
 		);
 
-		// Wrap the button and its text in one inline flex row. This vertically
-		// centres the button against the text, and gives us the gap via `gap`
-		// rather than a margin (WordPress' constrained-layout would strip a margin
-		// off a direct child). The wrapper adds no specificity, so both stay
-		// overridable and the author's `class` still lands on the button itself.
+		// Space between button and content: a gap for inline text, ignored between
+		// block elements.
 		$button = $this->button( $this->clean_content( $content ), $atts );
-		$inner  = 'after' === $atts['buttonposition'] ? $content . $button : $button . $content;
 
-		return '<span class="responsivevoice-enclosed">' . $inner . '</span>';
+		return 'after' === $atts['buttonposition']
+			? $content . ' ' . $button
+			: $button . ' ' . $content;
 	}
 
 	/**
