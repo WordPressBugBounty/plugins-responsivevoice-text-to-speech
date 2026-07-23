@@ -34,6 +34,7 @@ final class SettingsPage {
 
 	private const URL_REGISTER  = 'https://responsivevoice.org/register';
 	private const URL_DASHBOARD = 'https://app.responsivevoice.org';
+	private const URL_UPGRADE   = 'https://app.responsivevoice.org/upgrade';
 	private const SDK_URL       = 'https://cdn.responsivevoice.org/sdk/latest/responsivevoice.js';
 	private const CHANGELOG_URL = 'https://docs.responsivevoice.org/changelog/core/';
 
@@ -444,7 +445,10 @@ final class SettingsPage {
 			'<div id="rvtts-customizer" class="rvtts-customizer" data-rvtts-apikey="%1$s" data-rvtts-config="%2$s"'
 			. ' data-rvtts-verifyurl="%7$s" data-rvtts-status="%8$s"'
 			. ' data-rvtts-unverified-msg="%9$s" data-rvtts-verify-cta="%10$s"'
-			. ' data-rvtts-default-enabled="%12$s"%5$s>'
+			. ' data-rvtts-default-enabled="%12$s"'
+			. ' data-rvtts-managed="%13$s" data-rvtts-managed-cta="%14$s"'
+			. ' data-rvtts-managed-url="%15$s" data-rvtts-server-config="%16$s"'
+			. ' data-rvtts-managed-paths="%17$s"%5$s>'
 			. '<div class="rvtts-customizer__optionswrap">'
 			. '<p class="rvtts-section-label">%11$s</p>'
 			. '<div id="rvtts-customizer-controls" class="rvtts-customizer__controls"></div>'
@@ -466,7 +470,12 @@ final class SettingsPage {
 			esc_attr( $this->verify_notice_message( $is_v2 ) ),
 			esc_attr__( 'Verify your website', 'responsivevoice-text-to-speech' ),
 			esc_html__( 'Web Player', 'responsivevoice-text-to-speech' ),
-			$default_enabled ? '1' : '0'
+			$default_enabled ? '1' : '0',
+			$this->config->appearance_managed() ? '1' : '0',
+			esc_attr__( 'Unlock', 'responsivevoice-text-to-speech' ),
+			esc_url( self::URL_UPGRADE ),
+			esc_attr( (string) wp_json_encode( (object) $this->config->web_player_base() ) ),
+			esc_attr( (string) wp_json_encode( WebPlayerEngine::MANAGED_PATHS ) )
 		);
 	}
 

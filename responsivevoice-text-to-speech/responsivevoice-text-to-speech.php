@@ -3,7 +3,7 @@
  * Plugin Name:       ResponsiveVoice Text To Speech
  * Plugin URI:        https://responsivevoice.org/wordpress-text-to-speech-plugin/
  * Description:       Add HTML5 text-to-speech to your WordPress posts and pages with ResponsiveVoice.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            ResponsiveVoice

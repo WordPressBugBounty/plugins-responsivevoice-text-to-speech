@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class ConfigResult {
 
+	private const MANAGED_LEVEL = 0;
+
 	/**
 	 * Whether the key validated.
 	 *
@@ -36,11 +38,11 @@ final class ConfigResult {
 	private array $web_player;
 
 	/**
-	 * Whether the site is on a paid tier.
+	 * The server-reported account level, or null when it did not report one.
 	 *
-	 * @var bool
+	 * @var int|null
 	 */
-	private bool $paid;
+	private ?int $level;
 
 	/**
 	 * Constructor.
@@ -48,20 +50,20 @@ final class ConfigResult {
 	 * @param bool                 $valid       Whether the key validated.
 	 * @param string|null          $sdk_version SDK version or null.
 	 * @param array<string, mixed> $web_player  WebPlayer config.
-	 * @param bool                 $paid        Paid tier.
+	 * @param int|null             $level       Account level or null.
 	 */
-	private function __construct( bool $valid, ?string $sdk_version, array $web_player, bool $paid ) {
+	private function __construct( bool $valid, ?string $sdk_version, array $web_player, ?int $level ) {
 		$this->valid       = $valid;
 		$this->sdk_version = $sdk_version;
 		$this->web_player  = $web_player;
-		$this->paid        = $paid;
+		$this->level       = $level;
 	}
 
 	/**
 	 * An invalid/blocked result.
 	 */
 	public static function invalid(): self {
-		return new self( false, null, array(), false );
+		return new self( false, null, array(), null );
 	}
 
 	/**
@@ -69,10 +71,10 @@ final class ConfigResult {
 	 *
 	 * @param string|null          $sdk_version SDK version or null.
 	 * @param array<string, mixed> $web_player  WebPlayer config.
-	 * @param bool                 $paid        Paid tier.
+	 * @param int|null             $level       Account level or null.
 	 */
-	public static function valid( ?string $sdk_version, array $web_player, bool $paid ): self {
-		return new self( true, $sdk_version, $web_player, $paid );
+	public static function valid( ?string $sdk_version, array $web_player, ?int $level = null ): self {
+		return new self( true, $sdk_version, $web_player, $level );
 	}
 
 	/**
@@ -85,7 +87,7 @@ final class ConfigResult {
 			! empty( $data['valid'] ),
 			isset( $data['sdk_version'] ) ? (string) $data['sdk_version'] : null,
 			isset( $data['web_player'] ) && is_array( $data['web_player'] ) ? $data['web_player'] : array(),
-			! empty( $data['paid'] )
+			isset( $data['level'] ) ? (int) $data['level'] : null
 		);
 	}
 
@@ -99,7 +101,7 @@ final class ConfigResult {
 			'valid'       => $this->valid,
 			'sdk_version' => $this->sdk_version,
 			'web_player'  => $this->web_player,
-			'paid'        => $this->paid,
+			'level'       => $this->level,
 		);
 	}
 
@@ -127,9 +129,16 @@ final class ConfigResult {
 	}
 
 	/**
-	 * Whether the site is on a paid tier.
+	 * The server-reported account level, or null when it did not report one.
 	 */
-	public function is_paid(): bool {
-		return $this->paid;
+	public function level(): ?int {
+		return $this->level;
+	}
+
+	/**
+	 * Whether the server manages this account's player appearance.
+	 */
+	public function appearance_managed(): bool {
+		return self::MANAGED_LEVEL === $this->level;
 	}
 }

@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
 final class ConfigClient {
 
 	private const ENDPOINT       = 'https://texttospeech.responsivevoice.org/v2/config';
+	private const LEVEL_HEADER   = 'x-rv-t';
 	private const TRANSIENT_BASE = 'rvtts_config_';
 	private const STORE_BASE     = 'rvtts_config_store_';
 	private const TTL            = 300;
@@ -109,6 +110,16 @@ final class ConfigClient {
 	}
 
 	/**
+	 * Whether the server manages this account's player appearance. Never hits the
+	 * network, so the front end can call it.
+	 */
+	public function appearance_managed(): bool {
+		$resolved = $this->resolved();
+
+		return null !== $resolved && $resolved->appearance_managed();
+	}
+
+	/**
 	 * Read the cached result without making a request. Null when uncached.
 	 */
 	public function cached(): ?ConfigResult {
@@ -177,9 +188,11 @@ final class ConfigClient {
 		$web_player  = ( isset( $body['features']['webPlayer'] ) && is_array( $body['features']['webPlayer'] ) )
 			? $body['features']['webPlayer']
 			: array();
-		$paid        = isset( $body['analytics']['enabled'] ) ? (bool) $body['analytics']['enabled'] : false;
 
-		return ConfigResult::valid( $sdk_version, $web_player, $paid );
+		$raw_level = trim( (string) wp_remote_retrieve_header( $response, self::LEVEL_HEADER ) );
+		$level     = is_numeric( $raw_level ) ? (int) $raw_level : null;
+
+		return ConfigResult::valid( $sdk_version, $web_player, $level );
 	}
 
 	/**

@@ -22,6 +22,21 @@ final class WebPlayerEngine {
 	public const META_KEY = '_rvtts_webplayer';
 
 	/**
+	 * Config paths the server manages.
+	 *
+	 * @var array<int, string>
+	 */
+	public const MANAGED_PATHS = array(
+		'controls.brand',
+		'controls.skip',
+		'controls.speed',
+		'controls.time',
+		'navigation.paragraphHighlight',
+		'navigation.paragraphClick',
+		'miniPlayer.enabled',
+	);
+
+	/**
 	 * Settings accessor.
 	 *
 	 * @var Settings
@@ -108,7 +123,7 @@ final class WebPlayerEngine {
 		// (theme, position, layout, voice, colours, etc.) override it, and deep-merged so a
 		// sparse override such as `layout.display` keeps the server's sibling keys.
 		// The seed also carries the default selector when the owner has not set their own.
-		$overrides         = $this->settings->get_webplayer_config_seed();
+		$overrides         = $this->drop_managed_appearance( $this->settings->get_webplayer_config_seed() );
 		$config            = array_replace_recursive( $server, $overrides );
 		$config['enabled'] = $this->resolve_enabled( $config );
 
@@ -128,6 +143,39 @@ final class WebPlayerEngine {
 	 */
 	public function is_enabled(): bool {
 		return $this->resolve_enabled( $this->config->web_player_base() );
+	}
+
+	/**
+	 * Drop the managed paths, and a custom palette, from the overrides. Filters the
+	 * overrides only; the stored option keeps the site's saved values.
+	 *
+	 * @param array<string, mixed> $overrides Saved customizer overrides.
+	 * @return array<string, mixed>
+	 */
+	private function drop_managed_appearance( array $overrides ): array {
+		if ( ! $this->config->appearance_managed() ) {
+			return $overrides;
+		}
+
+		foreach ( self::MANAGED_PATHS as $path ) {
+			$keys = explode( '.', $path );
+			$leaf = array_pop( $keys );
+			$node = &$overrides;
+			foreach ( $keys as $key ) {
+				if ( ! isset( $node[ $key ] ) || ! is_array( $node[ $key ] ) ) {
+					continue 2;
+				}
+				$node = &$node[ $key ];
+			}
+			unset( $node[ $leaf ] );
+			unset( $node );
+		}
+
+		if ( isset( $overrides['theme'] ) && is_array( $overrides['theme'] ) ) {
+			unset( $overrides['theme'] );
+		}
+
+		return $overrides;
 	}
 
 	/**
