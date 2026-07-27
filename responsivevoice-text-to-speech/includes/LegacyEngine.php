@@ -30,12 +30,21 @@ final class LegacyEngine {
 	private TextSanitizer $sanitizer;
 
 	/**
+	 * Attribution link source. Null renders buttons without one.
+	 *
+	 * @var Attribution|null
+	 */
+	private ?Attribution $attribution;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param TextSanitizer $sanitizer Content cleaner.
+	 * @param TextSanitizer    $sanitizer   Content cleaner.
+	 * @param Attribution|null $attribution Attribution link source.
 	 */
-	public function __construct( TextSanitizer $sanitizer ) {
-		$this->sanitizer = $sanitizer;
+	public function __construct( TextSanitizer $sanitizer, ?Attribution $attribution = null ) {
+		$this->sanitizer   = $sanitizer;
+		$this->attribution = $attribution;
 	}
 
 	/**
@@ -123,15 +132,13 @@ final class LegacyEngine {
 
 	/**
 	 * "Listen to this" button for the Gutenberg block. Same speak button, but the
-	 * caller (block render.php) supplies `get_block_wrapper_attributes()` so the
-	 * block's colour, typography, spacing and border supports land on the button
-	 * element itself.
+	 * caller (block render.php) supplies the button's class and style attributes.
 	 *
 	 * @param array<string, string> $atts               Block attributes (voice/buttontext/rate/pitch/volume).
-	 * @param string                $wrapper_attributes  Output of get_block_wrapper_attributes() (safe HTML attrs).
+	 * @param string                $button_attributes  Class and style attributes for the button (safe HTML attrs).
 	 * @return string
 	 */
-	public function render_block_button( array $atts, string $wrapper_attributes ): string {
+	public function render_block_button( array $atts, string $button_attributes ): string {
 		$atts = shortcode_atts(
 			array(
 				// Empty = account/library default voice (valid for v1 and v2).
@@ -144,19 +151,19 @@ final class LegacyEngine {
 			$atts
 		);
 
-		return $this->button( $this->clean_content( (string) get_the_content() ), $atts, $wrapper_attributes );
+		return $this->button( $this->clean_content( (string) get_the_content() ), $atts, $button_attributes );
 	}
 
 	/**
 	 * Build a CSP-clean speak button.
 	 *
-	 * @param string                $text               Speakable text.
-	 * @param array<string, string> $atts               Resolved attributes.
-	 * @param string                $wrapper_attributes Optional block wrapper attributes (class + supports style);
-	 *                                                  when empty the shortcode falls back to the bare class.
+	 * @param string                $text              Speakable text.
+	 * @param array<string, string> $atts              Resolved attributes.
+	 * @param string                $button_attributes Optional class and style attributes from the block;
+	 *                                                 when empty the shortcode falls back to the bare class.
 	 * @return string
 	 */
-	private function button( string $text, array $atts, string $wrapper_attributes = '' ): string {
+	private function button( string $text, array $atts, string $button_attributes = '' ): string {
 		$data = array(
 			'data-rvtts-action' => 'speak',
 			'data-rvtts-text'   => $text,
@@ -174,17 +181,21 @@ final class LegacyEngine {
 			}
 		}
 
+		if ( null !== $this->attribution && $this->attribution->is_visible() ) {
+			$data['data-rvtts-brand-url']   = $this->attribution->url();
+			$data['data-rvtts-brand-label'] = $this->attribution->label();
+		}
+
 		$attributes = '';
 		foreach ( $data as $name => $value ) {
 			$attributes .= sprintf( ' %s="%s"', $name, esc_attr( $value ) );
 		}
 
-		// The block routes its supports here via get_block_wrapper_attributes()
-		// (already escaped). Shortcodes have no block context, so we build the class
-		// ourselves, appending any author-supplied `class` attribute as a styling hook.
+		// The block passes its supports in (already escaped). Shortcodes have none, so
+		// build the class here and append the author's `class` attribute.
 		$extra     = trim( (string) ( $atts['class'] ?? '' ) );
 		$classes   = 'responsivevoice-button' . ( '' !== $extra ? ' ' . $extra : '' );
-		$container = '' !== $wrapper_attributes ? $wrapper_attributes : 'class="' . esc_attr( $classes ) . '"';
+		$container = '' !== $button_attributes ? $button_attributes : 'class="' . esc_attr( $classes ) . '"';
 
 		return sprintf(
 			'<button %1$s type="button" title="%2$s"%3$s>%4$s<span class="responsivevoice-button__label">%5$s</span></button>',

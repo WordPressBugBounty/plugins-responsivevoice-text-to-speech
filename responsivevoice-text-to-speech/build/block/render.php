@@ -9,7 +9,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$rvtts_engine = new \ResponsiveVoice\LegacyEngine( new \ResponsiveVoice\TextSanitizer() );
+$rvtts_settings = new \ResponsiveVoice\Settings();
+$rvtts_engine   = new \ResponsiveVoice\LegacyEngine(
+	new \ResponsiveVoice\TextSanitizer(),
+	new \ResponsiveVoice\Attribution(
+		$rvtts_settings,
+		new \ResponsiveVoice\ConfigClient( $rvtts_settings )
+	)
+);
 
 $rvtts_atts = array(
 	// Empty voice = use the account/library default (valid for both v1 and v2);
@@ -26,9 +33,9 @@ foreach ( array( 'rate', 'pitch', 'volume' ) as $rvtts_param ) {
 	}
 }
 
-// Apply the block's colour, typography, spacing and border supports to the button
-// element itself, so a background never bleeds past it into a full-width wrapper.
-$rvtts_wrapper = get_block_wrapper_attributes( array( 'class' => 'responsivevoice-button' ) );
+// The wrapper is what the theme's layout rules position; the button carries the styling.
+$rvtts_wrapper = get_block_wrapper_attributes();
+$rvtts_button  = \ResponsiveVoice\Block::button_attributes( $attributes );
 
-// Engine output is already escaped per attribute; echo as trusted markup.
-echo $rvtts_engine->render_block_button( $rvtts_atts, $rvtts_wrapper ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+// Both attribute strings are escaped at source; echo as trusted markup.
+echo '<div ' . $rvtts_wrapper . '>' . $rvtts_engine->render_block_button( $rvtts_atts, $rvtts_button ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

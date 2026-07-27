@@ -15,6 +15,7 @@ return array(
     'ResponsiveVoice\\Admin\\SettingsPage' => $baseDir . '/includes/Admin/SettingsPage.php',
     'ResponsiveVoice\\Admin\\VerificationNotice' => $baseDir . '/includes/Admin/VerificationNotice.php',
     'ResponsiveVoice\\AssetManager' => $baseDir . '/includes/AssetManager.php',
+    'ResponsiveVoice\\Attribution' => $baseDir . '/includes/Attribution.php',
     'ResponsiveVoice\\Block' => $baseDir . '/includes/Block.php',
     'ResponsiveVoice\\ConfigClient' => $baseDir . '/includes/ConfigClient.php',
     'ResponsiveVoice\\ConfigResult' => $baseDir . '/includes/ConfigResult.php',

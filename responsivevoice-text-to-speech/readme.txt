@@ -6,7 +6,7 @@ Tags: text to speech, tts, accessibility, audio, text to audio
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.0.3
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,10 @@ Your existing shortcodes keep working, so no changes are required. A few things 
 4. Enable or disable the WebPlayer on any individual post or page.
 
 == Changelog ==
+
+= Version 2.1.0 =
+* add a hover link on the listen button's ResponsiveVoice mark
+* align the listen-button block with the theme content column
 
 = Version 2.0.3 =
 * update the bundled ResponsiveVoice speech engine to the latest version
@@ -409,5 +413,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 2.0.3 =
+= 2.1.0 =
 * Upgrade the plugin for the latest improvements.

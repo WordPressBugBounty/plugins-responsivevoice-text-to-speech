@@ -12,27 +12,39 @@
     "color": {
       "text": true,
       "background": true,
-      "gradients": true
+      "gradients": true,
+      "__experimentalSkipSerialization": true
     },
     "spacing": {
       "padding": true,
-      "margin": true
+      "margin": true,
+      "__experimentalSkipSerialization": [
+        "padding"
+      ]
     },
     "typography": {
       "fontSize": true,
-      "lineHeight": true
+      "lineHeight": true,
+      "__experimentalSkipSerialization": [
+        "fontSize",
+        "lineHeight"
+      ]
     },
     "__experimentalBorder": {
       "color": true,
       "radius": true,
       "style": true,
       "width": true,
+      "__experimentalSkipSerialization": true,
       "__experimentalDefaultControls": {
         "color": true,
         "radius": true,
         "width": true
       }
     }
+  },
+  "selectors": {
+    "root": ".wp-block-rvtts-listen-button .wp-block-rvtts-listen-button__button"
   },
   "attributes": {
     "voice": {

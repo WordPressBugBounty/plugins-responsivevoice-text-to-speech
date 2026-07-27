@@ -51,7 +51,7 @@ final class Plugin {
 		$dismissal->register();
 
 		// v1 Shortcodes.
-		( new LegacyEngine( new TextSanitizer() ) )->register();
+		( new LegacyEngine( new TextSanitizer(), new Attribution( $settings, $config ) ) )->register();
 
 		// Core library (v1 or v2, per engine) + the static button handler. Shared
 		// with the block so its editor loads the same engine core for getVoices().

@@ -115,10 +115,8 @@ final class Settings {
 		}
 
 		if ( $this->is_assoc_array( $stored ) ) {
-			return array_values(
-				array_keys(
-					array_filter( $stored, static fn( $state ): bool => 'on' === $state )
-				)
+			return array_keys(
+				array_filter( $stored, static fn( $state ): bool => 'on' === $state )
 			);
 		}
 

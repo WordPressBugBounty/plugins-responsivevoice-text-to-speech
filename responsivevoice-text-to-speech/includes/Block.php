@@ -90,6 +90,64 @@ final class Block {
 	}
 
 	/**
+	 * Class and style attributes for the block's button element.
+	 *
+	 * Colour, border, typography and padding are marked skipped in block.json, so
+	 * get_block_wrapper_attributes() leaves them to us. Margin isn't skipped and stays
+	 * on the wrapper as the block's outer spacing. Presets reach the style engine as
+	 * `var:preset|...` strings, the way core's own support handlers build them.
+	 *
+	 * @param array<string, mixed> $attributes Block attributes.
+	 * @return string Attribute string for the button element.
+	 */
+	public static function button_attributes( array $attributes ): string {
+		$style = isset( $attributes['style'] ) && is_array( $attributes['style'] )
+			? $attributes['style']
+			: array();
+
+		$preset = static function ( string $key, string $kind ) use ( $attributes ): ?string {
+			return isset( $attributes[ $key ] ) && '' !== $attributes[ $key ]
+				? 'var:preset|' . $kind . '|' . $attributes[ $key ]
+				: null;
+		};
+
+		$block_styles = array(
+			'color'      => array(
+				'text'       => $preset( 'textColor', 'color' ) ?? ( $style['color']['text'] ?? null ),
+				'background' => $preset( 'backgroundColor', 'color' ) ?? ( $style['color']['background'] ?? null ),
+				'gradient'   => $preset( 'gradient', 'gradient' ) ?? ( $style['color']['gradient'] ?? null ),
+			),
+			'border'     => is_array( $style['border'] ?? null ) ? $style['border'] : array(),
+			'typography' => is_array( $style['typography'] ?? null ) ? $style['typography'] : array(),
+			'spacing'    => array( 'padding' => $style['spacing']['padding'] ?? null ),
+		);
+
+		$border_color = $preset( 'borderColor', 'color' );
+		if ( null !== $border_color ) {
+			$block_styles['border']['color'] = $border_color;
+		}
+
+		$font_size = $preset( 'fontSize', 'font-size' );
+		if ( null !== $font_size ) {
+			$block_styles['typography']['fontSize'] = $font_size;
+		}
+
+		$styles = wp_style_engine_get_styles( $block_styles, array( 'convert_vars_to_classnames' => true ) );
+
+		$classes = 'responsivevoice-button wp-block-rvtts-listen-button__button';
+		if ( ! empty( $styles['classnames'] ) ) {
+			$classes .= ' ' . $styles['classnames'];
+		}
+
+		$attribute_string = 'class="' . esc_attr( $classes ) . '"';
+		if ( ! empty( $styles['css'] ) ) {
+			$attribute_string .= ' style="' . esc_attr( $styles['css'] ) . '"';
+		}
+
+		return $attribute_string;
+	}
+
+	/**
 	 * In the block editor, load the same engine core the frontend uses so the
 	 * inspector's voice picker can read `getVoices()` live. Gated to a keyed
 	 * account (an unkeyed site only has the browser voice, so free text is fine).
