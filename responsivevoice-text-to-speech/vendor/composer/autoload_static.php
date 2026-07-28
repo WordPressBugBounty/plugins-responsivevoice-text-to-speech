@@ -33,6 +33,7 @@ class ComposerStaticInitf622dc25eb3a3830fdbbeb52ca455ef8
         'ResponsiveVoice\\Attribution' => __DIR__ . '/../..' . '/includes/Attribution.php',
         'ResponsiveVoice\\Block' => __DIR__ . '/../..' . '/includes/Block.php',
         'ResponsiveVoice\\ConfigClient' => __DIR__ . '/../..' . '/includes/ConfigClient.php',
+        'ResponsiveVoice\\ConfigRefresh' => __DIR__ . '/../..' . '/includes/ConfigRefresh.php',
         'ResponsiveVoice\\ConfigResult' => __DIR__ . '/../..' . '/includes/ConfigResult.php',
         'ResponsiveVoice\\Deactivator' => __DIR__ . '/../..' . '/includes/Deactivator.php',
         'ResponsiveVoice\\LegacyEngine' => __DIR__ . '/../..' . '/includes/LegacyEngine.php',

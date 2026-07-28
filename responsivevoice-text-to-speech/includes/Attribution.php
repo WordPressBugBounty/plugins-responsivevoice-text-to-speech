@@ -53,8 +53,9 @@ final class Attribution {
 		}
 
 		$resolved = $this->config->resolved();
+		$level    = null !== $resolved ? $resolved->level() : null;
 
-		return null !== $resolved && self::ATTRIBUTED_LEVEL === $resolved->level();
+		return null === $level || self::ATTRIBUTED_LEVEL === $level;
 	}
 
 	/**

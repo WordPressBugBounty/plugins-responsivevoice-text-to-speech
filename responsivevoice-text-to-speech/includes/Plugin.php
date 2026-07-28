@@ -50,6 +50,10 @@ final class Plugin {
 		// Per-user notice dismissals (the AJAX write-back shared by dismissible notices).
 		$dismissal->register();
 
+		// Daily refresh of the stored /config probe. Outside is_admin() because
+		// that's where cron fires on most sites.
+		( new ConfigRefresh( $settings, $config ) )->register();
+
 		// v1 Shortcodes.
 		( new LegacyEngine( new TextSanitizer(), new Attribution( $settings, $config ) ) )->register();
 

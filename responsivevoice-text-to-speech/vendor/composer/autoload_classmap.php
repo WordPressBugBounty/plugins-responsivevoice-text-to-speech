@@ -18,6 +18,7 @@ return array(
     'ResponsiveVoice\\Attribution' => $baseDir . '/includes/Attribution.php',
     'ResponsiveVoice\\Block' => $baseDir . '/includes/Block.php',
     'ResponsiveVoice\\ConfigClient' => $baseDir . '/includes/ConfigClient.php',
+    'ResponsiveVoice\\ConfigRefresh' => $baseDir . '/includes/ConfigRefresh.php',
     'ResponsiveVoice\\ConfigResult' => $baseDir . '/includes/ConfigResult.php',
     'ResponsiveVoice\\Deactivator' => $baseDir . '/includes/Deactivator.php',
     'ResponsiveVoice\\LegacyEngine' => $baseDir . '/includes/LegacyEngine.php',

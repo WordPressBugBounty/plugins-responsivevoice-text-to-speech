@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
 final class Deactivator {
 
 	/**
-	 * Deactivation tasks. Reserved for clearing scheduled events / transient caches.
+	 * Deactivation tasks.
 	 */
 	public static function deactivate(): void {
-		// Intentionally empty for now.
+		wp_clear_scheduled_hook( ConfigRefresh::HOOK );
 	}
 }

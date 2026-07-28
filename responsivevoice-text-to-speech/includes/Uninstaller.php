@@ -25,8 +25,11 @@ final class Uninstaller {
 		// Cached /config probe and durable store: read the key before the options go.
 		( new ConfigClient( $settings ) )->purge( $settings->get_api_key() );
 
+		wp_clear_scheduled_hook( ConfigRefresh::HOOK );
+
 		delete_option( Settings::OPTION );
 		delete_option( Verification::OPTION );
+		delete_option( ConfigRefresh::VERSION_OPTION );
 
 		delete_post_meta_by_key( WebPlayerEngine::META_KEY );
 		Dismissal::purge_all();
