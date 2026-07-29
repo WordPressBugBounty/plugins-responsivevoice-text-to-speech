@@ -434,11 +434,14 @@ final class SettingsPage {
 		$config = (string) wp_json_encode( (object) $this->settings->get_webplayer_config_seed() );
 
 		// Sample content for the player to attach to (its selectors target an article).
+		// The slot mirrors what SdkRuntime prepends to the content on the front end,
+		// so the "Inside the content" position previews where the player really lands.
 		$sample = sprintf(
-			'<article id="rvtts-wp-preview-article"><h2>%1$s</h2><p>%2$s</p><p>%3$s</p></article>',
+			'<article id="rvtts-wp-preview-article"><h2>%1$s</h2><div class="%4$s"></div><p>%2$s</p><p>%3$s</p></article>',
 			esc_html__( 'Preview', 'responsivevoice-text-to-speech' ),
 			esc_html__( 'This is a live preview of the ResponsiveVoice WebPlayer. Adjust the options on the left to see and hear how it will appear on your site.', 'responsivevoice-text-to-speech' ),
-			esc_html__( 'The player attaches to your content and reads it aloud, paragraph by paragraph.', 'responsivevoice-text-to-speech' )
+			esc_html__( 'The player attaches to your content and reads it aloud, paragraph by paragraph.', 'responsivevoice-text-to-speech' ),
+			esc_attr( ltrim( Settings::WEBPLAYER_SLOT_SELECTOR, '.' ) )
 		);
 
 		printf(
