@@ -60,7 +60,26 @@ final class Block {
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_filter( 'block_type_metadata', array( $this, 'stamp_version' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'register_jsx_runtime' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+	}
+
+	/**
+	 * The built block script depends on `react-jsx-runtime`, a handle WordPress only
+	 * registers from 6.6. Provide it on older releases, where the block would
+	 * otherwise never load in the editor.
+	 */
+	public function register_jsx_runtime(): void {
+		if ( wp_script_is( 'react-jsx-runtime', 'registered' ) ) {
+			return;
+		}
+
+		$file  = RVTTS_PLUGIN_DIR . 'build/jsx-runtime.asset.php';
+		$asset = file_exists( $file ) ? (array) ( require $file ) : array();
+		$ver   = (string) ( $asset['version'] ?? RVTTS_VERSION );
+		$deps  = (array) ( $asset['dependencies'] ?? array( 'wp-element' ) );
+
+		wp_register_script( 'react-jsx-runtime', RVTTS_PLUGIN_URL . 'build/jsx-runtime.js', $deps, $ver, true );
 	}
 
 	/**

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'responsivevoice/responsivevoice-text-to-speech',
-        'pretty_version' => 'v2.2.5',
-        'version' => '2.2.5.0',
-        'reference' => '48e5146cf17fab217eaed162f72ec12ad87d32e9',
+        'pretty_version' => 'v2.2.6',
+        'version' => '2.2.6.0',
+        'reference' => 'b915435a1a284ba393b54a3a36cbe93de97f9edc',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'responsivevoice/responsivevoice-text-to-speech' => array(
-            'pretty_version' => 'v2.2.5',
-            'version' => '2.2.5.0',
-            'reference' => '48e5146cf17fab217eaed162f72ec12ad87d32e9',
+            'pretty_version' => 'v2.2.6',
+            'version' => '2.2.6.0',
+            'reference' => 'b915435a1a284ba393b54a3a36cbe93de97f9edc',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

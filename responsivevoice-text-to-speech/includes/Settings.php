@@ -300,22 +300,236 @@ final class Settings {
 			$input['post_types'] = $map;
 		}
 
-		// The customizer submits the sparse WebPlayer config as a JSON string; keep
-		// only known top-level keys. The SDK + /v2/config validate/fill the rest.
+		// The customizer submits the sparse WebPlayer config as a JSON string.
 		$config = $input['webplayer_config'] ?? array();
 		if ( is_string( $config ) ) {
 			$decoded = json_decode( $config, true );
 			$config  = is_array( $decoded ) ? $decoded : array();
 		}
-		$input['webplayer_config'] = is_array( $config )
-			? array_intersect_key( $config, array_flip( $this->webplayer_config_keys() ) )
-			: array();
-
-		if ( isset( $input['webplayer_config']['position'] ) ) {
-			$input['webplayer_config']['position'] = $this->sanitize_position( $input['webplayer_config']['position'] );
-		}
+		$input['webplayer_config'] = is_array( $config ) ? $this->sanitize_webplayer_config( $config ) : array();
 
 		return $input;
+	}
+
+	/**
+	 * Sanitize the sparse WebPlayer config against WebPlayerFeatureSchema. A value
+	 * of the wrong type or outside its enum is dropped, so the SDK + /v2/config
+	 * default applies instead.
+	 *
+	 * @param array<mixed> $config Decoded config.
+	 * @return array<string, mixed>
+	 */
+	private function sanitize_webplayer_config( array $config ): array {
+		$config = array_intersect_key( $config, array_flip( $this->webplayer_config_keys() ) );
+		$clean  = array();
+
+		foreach ( $config as $key => $value ) {
+			switch ( $key ) {
+				case 'selector':
+				case 'paragraphSelector':
+					$clean[ $key ] = $this->sanitize_selector( $value );
+					break;
+				case 'position':
+					$clean[ $key ] = $this->sanitize_position( $value );
+					break;
+				case 'theme':
+					$clean[ $key ] = $this->sanitize_theme( $value );
+					break;
+				case 'controls':
+					$clean[ $key ] = $this->sanitize_controls( $value );
+					break;
+				case 'navigation':
+					$clean[ $key ] = $this->pick_booleans( $value, array( 'paragraphHighlight', 'paragraphClick' ) );
+					break;
+				case 'layout':
+					$clean[ $key ] = $this->drop_empty(
+						array(
+							'mode'    => $this->pick_enum( $value['mode'] ?? null, array( 'shrink', 'fill' ) ),
+							'display' => $this->pick_enum( $value['display'] ?? null, array( 'inline', 'block' ) ),
+						)
+					);
+					break;
+				case 'miniPlayer':
+					$clean[ $key ] = $this->sanitize_mini_player( $value );
+					break;
+				case 'sanitize':
+					$exclude       = isset( $value['exclude'] ) && is_array( $value['exclude'] ) ? $value['exclude'] : array();
+					$clean[ $key ] = $this->drop_empty(
+						$this->pick_booleans( $value, array( 'enabled' ) )
+						+ array( 'exclude' => array_values( array_filter( array_map( array( $this, 'sanitize_selector' ), $exclude ) ) ) )
+					);
+					break;
+				case 'voice':
+					$clean[ $key ] = $this->sanitize_voice( $value );
+					break;
+				case 'pitch':
+				case 'rate':
+					$clean[ $key ] = is_numeric( $value ) ? min( 2.0, max( 0.0, (float) $value ) ) : null;
+					break;
+				case 'volume':
+					$clean[ $key ] = is_numeric( $value ) ? min( 1.0, max( 0.0, (float) $value ) ) : null;
+					break;
+			}
+		}
+
+		return $this->drop_empty( $clean );
+	}
+
+	/**
+	 * Sanitize the WebPlayer `theme`: a preset name or an object of colour tokens.
+	 *
+	 * @param mixed $theme Raw theme value.
+	 * @return string|array<string, string>|null
+	 */
+	private function sanitize_theme( $theme ) {
+		if ( ! is_array( $theme ) ) {
+			return $this->pick_enum( $theme, array( 'neutral', 'responsivevoice' ) );
+		}
+
+		$allowed = array( 'bg', 'fg', 'muted', 'accent', 'accentSoft', 'hover', 'border', 'track', 'fill' );
+		$tokens  = array();
+		foreach ( array_intersect_key( $theme, array_flip( $allowed ) ) as $token => $colour ) {
+			$colour = is_string( $colour ) ? sanitize_hex_color( $colour ) : '';
+			if ( $colour ) {
+				$tokens[ $token ] = $colour;
+			}
+		}
+
+		return $tokens;
+	}
+
+	/**
+	 * Sanitize the WebPlayer `controls` toggles. `brand` is a boolean or an
+	 * `{ icon, poweredBy }` object.
+	 *
+	 * @param mixed $controls Raw controls value.
+	 * @return array<string, mixed>
+	 */
+	private function sanitize_controls( $controls ): array {
+		$clean = $this->pick_booleans( $controls, array( 'progress', 'time', 'skip', 'speed', 'brand' ) );
+
+		if ( isset( $controls['brand'] ) && is_array( $controls['brand'] ) ) {
+			$clean['brand'] = $this->pick_booleans( $controls['brand'], array( 'icon', 'poweredBy' ) );
+		}
+
+		return $this->drop_empty( $clean );
+	}
+
+	/**
+	 * Sanitize the WebPlayer `miniPlayer`: a boolean, or an object whose `position`
+	 * is a corner keyword or a CSS-offset object.
+	 *
+	 * @param mixed $mini_player Raw miniPlayer value.
+	 * @return bool|array<string, mixed>|null
+	 */
+	private function sanitize_mini_player( $mini_player ) {
+		if ( ! is_array( $mini_player ) ) {
+			return is_bool( $mini_player ) ? $mini_player : null;
+		}
+
+		$clean    = $this->pick_booleans( $mini_player, array( 'enabled' ) );
+		$position = $mini_player['position'] ?? null;
+
+		$clean['position']  = is_array( $position )
+			? $this->pick_strings( $position, array( 'top', 'right', 'bottom', 'left' ) )
+			: $this->pick_enum( $position, array( 'top-left', 'top-right', 'bottom-left', 'bottom-right' ) );
+		$clean['animation'] = $this->pick_enum( $mini_player['animation'] ?? null, array( 'none', 'fade', 'slide', 'pop' ) );
+
+		return $this->drop_empty( $clean );
+	}
+
+	/**
+	 * Sanitize the WebPlayer `voice`: a voice name, or a structured query or
+	 * regex selector.
+	 *
+	 * @param mixed $voice Raw voice value.
+	 * @return string|array<string, mixed>|null
+	 */
+	private function sanitize_voice( $voice ) {
+		if ( ! is_array( $voice ) ) {
+			return is_string( $voice ) ? sanitize_text_field( $voice ) : null;
+		}
+
+		$clean           = $this->pick_strings( $voice, array( 'name', 'lang', 'provider', 'flags' ) );
+		$clean['gender'] = $this->pick_enum( $voice['gender'] ?? null, array( 'f', 'm', 'male', 'female' ) );
+		$clean          += $this->pick_booleans( $voice, array( 'isByok' ) );
+
+		// A regex source is kept verbatim; text sanitizing would corrupt the pattern.
+		if ( isset( $voice['regex'] ) && is_string( $voice['regex'] ) ) {
+			$clean['regex'] = $voice['regex'];
+		}
+
+		return $this->drop_empty( $clean );
+	}
+
+	/**
+	 * A CSS selector with any markup removed. Not `sanitize_text_field()`, which
+	 * strips the percent-encoded octets an attribute selector can carry.
+	 *
+	 * @param mixed $selector Raw selector.
+	 */
+	private function sanitize_selector( $selector ): string {
+		return is_string( $selector ) ? trim( wp_strip_all_tags( $selector ) ) : '';
+	}
+
+	/**
+	 * The listed keys of `$value` that hold a real boolean.
+	 *
+	 * @param mixed              $value Raw value, expected to be an array.
+	 * @param array<int, string> $keys  Keys to keep.
+	 * @return array<string, bool>
+	 */
+	private function pick_booleans( $value, array $keys ): array {
+		$clean = array();
+		foreach ( $keys as $key ) {
+			if ( is_array( $value ) && isset( $value[ $key ] ) && is_bool( $value[ $key ] ) ) {
+				$clean[ $key ] = $value[ $key ];
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * The listed keys of `$value` that hold a non-empty string, text-sanitized.
+	 *
+	 * @param array<mixed>       $value Raw array.
+	 * @param array<int, string> $keys  Keys to keep.
+	 * @return array<string, string>
+	 */
+	private function pick_strings( array $value, array $keys ): array {
+		$clean = array();
+		foreach ( $keys as $key ) {
+			$text = isset( $value[ $key ] ) && is_string( $value[ $key ] ) ? sanitize_text_field( $value[ $key ] ) : '';
+			if ( '' !== $text ) {
+				$clean[ $key ] = $text;
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * `$value` when it is one of the allowed strings, otherwise null.
+	 *
+	 * @param mixed              $value   Raw value.
+	 * @param array<int, string> $allowed Allowed values.
+	 */
+	private function pick_enum( $value, array $allowed ): ?string {
+		return is_string( $value ) && in_array( $value, $allowed, true ) ? $value : null;
+	}
+
+	/**
+	 * Remove null, empty-string and empty-array entries; `false` is a real value.
+	 *
+	 * @param array<string, mixed> $values Values to filter.
+	 * @return array<string, mixed>
+	 */
+	private function drop_empty( array $values ): array {
+		return array_filter(
+			$values,
+			static fn( $value ): bool => null !== $value && '' !== $value && array() !== $value
+		);
 	}
 
 	/**

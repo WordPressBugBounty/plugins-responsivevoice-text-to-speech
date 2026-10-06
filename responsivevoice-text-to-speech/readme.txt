@@ -6,7 +6,7 @@ Tags: text to speech, tts, accessibility, audio, text to audio
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,10 @@ Your existing shortcodes keep working, so no changes are required. A few things 
 4. Enable or disable the WebPlayer on any individual post or page.
 
 == Changelog ==
+
+= Version 2.2.6 =
+* the listen button block now loads in the editor on WordPress 6.3 to 6.5
+* validate every saved webplayer setting before it is stored
 
 = Version 2.2.5 =
 * tested up to WordPress 7.1
@@ -434,5 +438,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 2.2.5 =
+= 2.2.6 =
 * Upgrade the plugin for the latest improvements.
