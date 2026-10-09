@@ -21,6 +21,7 @@ return array(
     'ResponsiveVoice\\ConfigRefresh' => $baseDir . '/includes/ConfigRefresh.php',
     'ResponsiveVoice\\ConfigResult' => $baseDir . '/includes/ConfigResult.php',
     'ResponsiveVoice\\Deactivator' => $baseDir . '/includes/Deactivator.php',
+    'ResponsiveVoice\\GeneratorTag' => $baseDir . '/includes/GeneratorTag.php',
     'ResponsiveVoice\\LegacyEngine' => $baseDir . '/includes/LegacyEngine.php',
     'ResponsiveVoice\\Plugin' => $baseDir . '/includes/Plugin.php',
     'ResponsiveVoice\\Router' => $baseDir . '/includes/Router.php',

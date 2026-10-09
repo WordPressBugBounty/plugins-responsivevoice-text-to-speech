@@ -6,34 +6,41 @@ Tags: text to speech, tts, accessibility, audio, text to audio
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.6
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-ResponsiveVoice the leading HTML5 text to speech synthesis solution, is now available for WordPress. Over 51 languages through 158 voices.
+Text to speech for WordPress. Add a Listen button or an article player that reads posts and pages aloud, in 51 languages through 158 voices.
 
 == Description ==
 [ResponsiveVoice](https://responsivevoice.org/wordpress-text-to-speech-plugin/) adds HTML5 text-to-speech to your WordPress posts and pages — with nothing extra to install, across all smartphone, tablet and desktop devices. Your readers can listen with a tap: add a Listen button through the Gutenberg block or a shortcode, or turn on the WebPlayer to read a whole post aloud.
 
+### What people use it for:
+* An audio version of every article, for readers who would rather listen
+* Accessibility for readers with visual impairments, dyslexia or reading difficulties
+* Language learning: hear a word or a sentence pronounced in any supported language
+* Queue calling in pharmacies, clinics and hospitals: announce the next ticket number or name on a waiting-room screen
+* Announcements on kiosks, information boards and digital signage
+* Your own scripts: the plugin loads the ResponsiveVoice library on every page, so any theme or plugin can call `responsiveVoice.speak()`
+
 It supports 51 languages through 158 voices out of the box — plus thousands of premium neural voices from major cloud providers (Google Cloud, Microsoft Azure, OpenAI and more) via bring-your-own-key on v2 accounts.
 
-Languages include UK English, US English, Spanish, French, German, Italian, Greek, Hungarian, Turkish, Russian, Dutch, Swedish, Norwegian, Japanese, Korean, Chinese, Chinese (Hong Kong), Chinese Taiwan, Hindi, Serbian, Croatian, Bosnian, Romanian, Catalan, Australian, Finnish, Afrikaans, Albanian, Arabic, Armenian, Czech, Danish, Esperanto, Hatian Creole, Icelandic, Indonesian, Latin, Latvian, Macedonian, Moldavian, Montenegrin, Polish, Brazilian Portuguese, Portuguese, Serbo-Croatian, Slovak, Spanish Latin American, Swahili, Tamil, Thai, Vietnamese and Welsh.
+Languages include UK English, US English, Spanish, French, German, Italian, Greek, Hungarian, Turkish, Russian, Dutch, Swedish, Norwegian, Japanese, Korean, Chinese, Chinese (Hong Kong), Chinese Taiwan, Hindi, Serbian, Croatian, Bosnian, Romanian, Catalan, Australian, Finnish, Afrikaans, Albanian, Arabic, Armenian, Czech, Danish, Esperanto, Haitian Creole, Icelandic, Indonesian, Latin, Latvian, Macedonian, Moldavian, Montenegrin, Polish, Brazilian Portuguese, Portuguese, Serbo-Croatian, Slovak, Spanish Latin American, Swahili, Tamil, Thai, Vietnamese and Welsh.
 
 
-### Support and Questions visit here first:
+### Support and questions:
 > * [Support](https://responsivevoice.org/support)
 
 ### Useful Links:
 > * [Live Demo](https://responsivevoice.org/wordpress-text-to-speech-plugin/)
 > * [Homepage](https://responsivevoice.org/wordpress-text-to-speech-plugin/)
-> * [Documentation](https://responsivevoice.org/wordpress-text-to-speech-plugin/)
+> * [Documentation](https://docs.responsivevoice.org/integrations/wordpress/)
 
 ### Features:
 * Listen to any post or page with the tap of a button
 * A Gutenberg "Listen" block with a live voice picker — plus shortcodes for the classic editor
 * The WebPlayer: a customizable player that reads a whole post aloud (v2 accounts)
 * 51 languages through 158 voices, plus thousands of premium neural voices via bring-your-own-key (v2)
-* Easy access to your content for every visitor — tap to listen to any page or post
 * A more accessible website for a range of users, including the visually impaired and the elderly
 * Web Content Accessibility Guidelines (WCAG) 2.0, ADA and BS 8878:2010 features
 
@@ -70,7 +77,7 @@ Leave the voice unset to use your account's default voice. A full list of voice 
 
 Create a [free account](https://responsivevoice.org/register) and add your API key from the **ResponsiveVoice** admin menu to unlock the full voice catalogue and the WebPlayer. Without a key, the plugin runs in demo mode so you can try it first.
 
-For more details, please see the [Documentation](https://responsivevoice.org/wordpress-text-to-speech-plugin/)
+For more details, see the [Documentation](https://docs.responsivevoice.org/integrations/wordpress/).
 
 = Requirements =
 
@@ -129,6 +136,9 @@ Your existing shortcodes keep working, so no changes are required. A few things 
 4. Enable or disable the WebPlayer on any individual post or page.
 
 == Changelog ==
+
+= Version 2.3.0 =
+* identify the plugin with a generator meta tag
 
 = Version 2.2.6 =
 * the listen button block now loads in the editor on WordPress 6.3 to 6.5
@@ -438,5 +448,5 @@ They have *not* been removed from the platform, and will continue to work in exi
 
 == Upgrade Notice ==
 
-= 2.2.6 =
+= 2.3.0 =
 * Upgrade the plugin for the latest improvements.

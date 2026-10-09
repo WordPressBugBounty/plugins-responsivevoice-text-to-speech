@@ -36,6 +36,7 @@ class ComposerStaticInitf622dc25eb3a3830fdbbeb52ca455ef8
         'ResponsiveVoice\\ConfigRefresh' => __DIR__ . '/../..' . '/includes/ConfigRefresh.php',
         'ResponsiveVoice\\ConfigResult' => __DIR__ . '/../..' . '/includes/ConfigResult.php',
         'ResponsiveVoice\\Deactivator' => __DIR__ . '/../..' . '/includes/Deactivator.php',
+        'ResponsiveVoice\\GeneratorTag' => __DIR__ . '/../..' . '/includes/GeneratorTag.php',
         'ResponsiveVoice\\LegacyEngine' => __DIR__ . '/../..' . '/includes/LegacyEngine.php',
         'ResponsiveVoice\\Plugin' => __DIR__ . '/../..' . '/includes/Plugin.php',
         'ResponsiveVoice\\Router' => __DIR__ . '/../..' . '/includes/Router.php',

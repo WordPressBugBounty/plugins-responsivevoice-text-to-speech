@@ -54,6 +54,8 @@ final class Plugin {
 		// that's where cron fires on most sites.
 		( new ConfigRefresh( $settings, $config ) )->register();
 
+		( new GeneratorTag() )->register();
+
 		// v1 Shortcodes.
 		( new LegacyEngine( new TextSanitizer(), new Attribution( $settings, $config ) ) )->register();
 
